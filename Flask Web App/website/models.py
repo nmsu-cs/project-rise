@@ -5,9 +5,8 @@ from sqlalchemy.sql import func
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(10000))
-    date = db.Column(db.DateTime(timezone = True), default=func.now())
+    date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,3 +14,11 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     notes = db.relationship('Note')
+    events = db.relationship('Event', backref='user', lazy='dynamic')
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

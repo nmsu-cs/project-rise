@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <!-- Include FullCalendar CSS from CDN -->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css' rel='stylesheet' />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.css' rel='stylesheet' />
+{% endblock %}
+
+{% block content %}
+<h1>This is the Home </h1>
+<div id='calendar'></div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <!-- Include FullCalendar JavaScript from CDN -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/interaction/main.min.js'></script>
+    <!-- Script to initialize FullCalendar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['dayGrid', 'interaction'],
+                editable: true,
+                events: '/get-events'
+            });
+            calendar.render();
+        });
+    </script>
+{% endblock %}
