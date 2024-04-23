@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from .models import Note, Event  # Assuming you have an Event model
 from . import db
 import json
+from datetime import datetime
 
 views = Blueprint('views', __name__)
 
@@ -10,14 +11,18 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     if request.method == 'POST':
-        note = request.form.get('note')
-        if len(note) < 1:
-            flash('Note is too short!', category='error')
+        title = request.form.get('title')
+        start = request.form.get('start')
+        end = request.form.get('end')
+
+        if not title or not start or not end:
+            flash('Event details are required.', category='error')
         else:
-            new_note = Note(data=note, user_id=current_user.id)
-            db.session.add(new_note)
+            new_event = Event(title=title, start_date=datetime.fromisoformat(start), end_date=datetime.fromisoformat(end), user_id=current_user.id)
+            db.session.add(new_event)
             db.session.commit()
-            flash('Note added!', category='success')
+            flash('Event added!', category='success')
+
     return render_template("home.html", user=current_user)
 
 @views.route('/delete-note', methods=['POST'])
@@ -44,3 +49,7 @@ def calendar():
         for event in events
     ]
     return jsonify(event_data)
+
+@views.route('/random-event')
+def random_event():
+    return render_template('random_event.html')

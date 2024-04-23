@@ -1,18 +1,29 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
 <h1>Let's Hang Out</h1>
-
+<form action="/" method="post">
+    <input type="text" name="title" placeholder="Event Title" required>
+    <input type="datetime-local" name="start" placeholder="Start Time" required>
+    <input type="datetime-local" name="end" placeholder="End Time" required>
+    <button type="submit">Add Event</button>
+</form>
 <div id="calendar"></div>
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
+          initialView: 'dayGridMonth',
+          eventTimeFormat: { // like '14:30:00'
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false
+          },
+          displayEventEnd: true, // Ensure end times are shown
+          events: '/calendar'  // Fetch events from the `/calendar` route
       });
       calendar.render();
   });
   </script>
   
-
 {% endblock %}

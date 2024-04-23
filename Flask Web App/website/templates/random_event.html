@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Random Event Picker</h1>
+<form id="eventForm">
+    <label for="activity">Enter possible activities (comma-separated):</label>
+    <input type="text" id="activity" name="activity">
+    <button type="button" onclick="pickRandomEvent()">Pick an Activity</button>
+</form>
+<p id="selectedActivity"></p>
+
+<script>
+function pickRandomEvent() {
+    var activities = document.getElementById('activity').value.split(',');
+    var randomActivity = activities[Math.floor(Math.random() * activities.length)];
+    document.getElementById('selectedActivity').innerHTML = "How about: " + randomActivity.trim() + "?";
+}
+</script>
+{% endblock %}
