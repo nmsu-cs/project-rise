@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ poll.question }}</h1>
+<form action="/polls/{{ poll.id }}" method="post">
+    <div id="optionsContainer">
+        {% for option in poll.options %}
+        <div class="option">
+            <input type="radio" id="option{{ loop.index }}" name="option" value="{{ option.id }}">
+            <label for="option{{ loop.index }}">{{ option.option }}</label>
+            <span class="vote-count">{{ option.vote_count }}</span><br>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" onclick="addOption()">Add Option</button>
+    <button type="submit">Vote</button>
+</form>
+
+<script>
+function addOption() {
+    var optionsContainer = document.getElementById('optionsContainer');
+    var optionCount = optionsContainer.getElementsByClassName('option').length + 1;
+
+    var newOptionDiv = document.createElement('div');
+    newOptionDiv.classList.add('option');
+
+    var newInput = document.createElement('input');
+    newInput.type = 'radio'; // Change input type to 'radio'
+    newInput.name = 'option'; // Set the name attribute to 'option'
+    newInput.value = 'option' + optionCount; // Set the value attribute to a unique value
+
+    var newLabel = document.createElement('label');
+    newLabel.htmlFor = 'option' + optionCount;
+    newLabel.textContent = 'Option ' + optionCount + ': ';
+
+    var voteCountSpan = document.createElement('span');
+    voteCountSpan.classList.add('vote-count');
+    newLabel.appendChild(voteCountSpan);
+
+    newOptionDiv.appendChild(newInput);
+    newOptionDiv.appendChild(newLabel);
+
+    optionsContainer.appendChild(newOptionDiv);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Create a New Poll</h1>
+<form id="pollForm" action="/create-poll" method="post">
+    <label for="question">Question:</label><br>
+    <input type="text" id="question" name="question" required><br>
+    <label for="option1">Option 1:</label><br>
+    <input type="text" id="option1" name="option1" required><br>
+    <label for="option2">Option 2:</label><br>
+    <input type="text" id="option2" name="option2" required><br>
+    <div id="dynamicOptions"></div> <!-- Container for dynamic options -->
+    <button type="button" onclick="addOption()">Add Option</button> <!-- Button to add more options -->
+    <button type="submit">Create Poll</button>
+</form>
+
+<script>
+function addOption() {
+    var dynamicOptions = document.getElementById('dynamicOptions');
+    var optionNumber = dynamicOptions.childElementCount + 3; // Start numbering from 3
+    
+    var container = document.createElement('div');
+    container.classList.add('option-container');
+    
+    var label = document.createElement('label');
+    label.setAttribute('for', 'option' + optionNumber);
+    label.textContent = 'Option ' + optionNumber + ':';
+    container.appendChild(label);
+        
+    var br = document.createElement('br'); // Add line break
+    container.appendChild(br);
+    
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', 'option' + optionNumber);
+    input.setAttribute('name', 'option' + optionNumber);
+    container.appendChild(input);
+    
+    dynamicOptions.appendChild(container);
+}
+
+</script>
+{% endblock %}
