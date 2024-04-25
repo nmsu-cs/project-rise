@@ -70,3 +70,15 @@ def sign_up():
     return render_template("sign_up.html", user=current_user)
 
 
+
+@auth.route('/clear')
+def clear():
+    clear_data()
+    return redirect(url_for('views.home'))
+
+
+def clear_data():
+    meta = db.metadata
+    for table in reversed(meta.sorted_tables):
+        db.session.execute(table.delete())
+    db.session.commit()

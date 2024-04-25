@@ -70,13 +70,51 @@
     }
 </style>
 
+<div class="flexbox-contain">
+    <button class="btn btn-primary my-button"  style="margin-right: 10%;" type="button" data-toggle="collapse" data-target="#groupTab">Create Group</button>
+</div>
+<div class="flexbox-contain">
+
+    <div class="collapse bg-dark" style="padding: 2%; border-radius:40px" id="groupTab">
+        
+        <form action ="/create_group"  method="post">
+                <label for="group_name" style="color:white"> Group Name </label>
+                <input type="text" name="groupName" title="groupName">
+
+                <button class="btn btn-primary my-button" type="submit" >Create</button>
+            
+
+
+            <div class="container" style="padding:30px" >
+                <h2>Add Users</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">select</th>
+                        <th scope="col">Username</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if users %}
+                    {%for user in users%}
+                    <tr>
+                        <td><button type="submit"  class="table-item btn-outline" >Add</button></td>
+                        <td><p class="table-item" >{{user.user_name}}</p></td>
+                        <input type="text" name="addedUser" value="{{user.user_name}}" style="display: none;">
+                    
+                    </tr>
+                    {%endfor%}
+                    {%endif%}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <div class="container">
     <h1>Let's Hang Out</h1>
-
-
-<div class="flexbox-contain">
-  <button class="btn btn-primary">Create Group</button>
-</div>
 
 
     <form action="/" method="post">
@@ -98,6 +136,12 @@
     <p id="modalEnd"></p>
     <button onclick="closeModal()">Close</button>
 </div>
+
+
+
+
+
+
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -123,8 +167,10 @@
       calendar.render();
   });
 
+
   function closeModal() {
       document.getElementById('eventModal').style.display = 'none';
+      
   }
 </script>
 {% endblock %}

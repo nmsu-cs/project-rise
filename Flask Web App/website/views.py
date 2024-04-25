@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
-from .models import Note, Event, Poll, PollVote, PollOption
+from .models import Note, Event, Poll, PollVote, PollOption, User
 from . import db
 import json
 from datetime import datetime
@@ -10,6 +10,8 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    
+
     if request.method == 'POST':
         title = request.form.get('title')
         start = request.form.get('start')
@@ -22,8 +24,26 @@ def home():
             db.session.add(new_event)
             db.session.commit()
             flash('Event added!', category='success')
+    
+    userName = User.query.with_entities(User.user_name)
+    listLength = User.query.with_entities(User.user_name).count()
 
-    return render_template("home.html", user=current_user)
+    return render_template("home.html", user=current_user, users = userName, listLength = listLength)
+
+
+
+
+
+@views.route('/create_group', methods=['GET', 'POST'])
+@login_required
+def add():
+    if request.method == 'POST':
+        
+        addedUser = request.form.get('addedUser')
+        
+    return redirect(url_for('views.home'))
+
+
 
 
 
@@ -54,6 +74,8 @@ def calendar():
         for event in events
     ]
     return jsonify(event_data)
+
+
 
 @views.route('/random-event')
 def random_event():
