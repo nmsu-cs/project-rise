@@ -20,6 +20,8 @@ def home():
             flash('Note added!', category='success')
     return render_template("home.html", user=current_user)
 
+
+
 @views.route('/delete-note', methods=['POST'])
 def delete_note():
     note = json.loads(request.data)
@@ -31,6 +33,8 @@ def delete_note():
             db.session.commit()
     return jsonify({})
 
+
+
 @views.route('/calendar')
 @login_required
 def calendar():
@@ -40,7 +44,15 @@ def calendar():
             'title': event.title,
             'start': event.start_date.isoformat(),
             'end': event.end_date.isoformat()
+            
         }
         for event in events
     ]
     return jsonify(event_data)
+
+
+
+@views.route('/discussions', methods=['GET', 'POST']) 
+@login_required
+def discussions():
+    return render_template("discussions.html", user=current_user)
