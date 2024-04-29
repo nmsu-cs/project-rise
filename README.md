@@ -38,36 +38,6 @@ Simply run main.py -- which will start the local server, and initialize the data
 
 Navigate to `http://localhost:5000` in your web browser to view the app.
 
-## Project Structure
-
-Flask Web App/
-│
-├── instance/
-│   └── database.db
-├── website
-│   ├── static
-│   │   └── node_modules
-│   │       └── @fullcalendar
-│   │           ├── core
-│   │           ├── daygrid
-│   │           ├── interaction
-│   │           └── timegrid
-│   ├── templates
-│   │   ├── base.html
-│   │   ├── home.html
-│   │   ├── login.html
-│   │   ├── sign_up.html
-│   │   ├── poll.html
-│   │   ├── create_poll.html
-│   │   ├── view_polls.html
-│   │   └── random_event.html
-│   ├── __init__.py
-│   ├── auth.py
-│   ├── models.py
-│   └── views.py
-├── main.py
-├── package.json
-└── package-lock.json
 
 ## Contributing
 
